@@ -1,5 +1,6 @@
 package info.bockowsk;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 @Details(revision = 1)
@@ -13,6 +14,8 @@ public class TicTacToe {
 	String[] players = { "X", "O" };
 
 	String winner = null;
+	
+	int counter=0;
 
 	Scanner scanner = new Scanner(System.in);
 
@@ -37,8 +40,12 @@ public class TicTacToe {
 	}
 
 	public boolean move(int x, int y) {
-
-		return true;
+		if (this.board[x - 1][y - 1] == " ") {
+			return false;
+		} else {
+			System.out.println("coordinates: " + x + ", " + y + " are already used.");
+			return true;
+		}
 	}
 
 	public String checkWhoWon() {
@@ -90,30 +97,50 @@ public class TicTacToe {
 
 	public static void main(String[] args) {
 
-		String dupa = "lala";
-		String[] tablica = { " ", " ", " " };
-		dupa = dupa + tablica[1];
-		dupa += "hehe";
-		System.out.println(dupa);
+		// new game instance
 		TicTacToe ticTacToe = new TicTacToe();
-		ticTacToe.printBoard();
-		while (ticTacToe.winner == null) {
+		System.out.println("The actual player is: " + ticTacToe.actualPlayer);
+		// the main loop, it repeats till winner
+		while (ticTacToe.winner == null && ticTacToe.counter < 9) {
 			ticTacToe.printBoard();
+			// coordinates
 			int x = 0;
 			int y = 0;
-			while ((x < 1 || x > 3) || (y < 1 || y > 3) || (ticTacToe.board[x - 1][y - 1] != " ")) {
-				System.out.println("Gracz: " + ticTacToe.actualPlayer + ". Podaj wspolrzedna pozioma od 1 do 3");
-				x = ticTacToe.scanner.nextInt();
-				System.out.println("Gracz: " + ticTacToe.actualPlayer + ". Podaj wspolrzedna pionowa od 1 do 3");
-				y = ticTacToe.scanner.nextInt();
-			}
+			// repeats until coordinates are correct
+			do {
+				// a proper range
+				while (x < 1 || x > 3) {
+					System.out.println("Player: " + ticTacToe.actualPlayer + ". Enter a coordinate X (from 1 to 3)");
+					// check is it an integer
+					while (!ticTacToe.scanner.hasNextInt()) {
+						System.out.println("you have to enter the integer from 1 to 3.");
+						ticTacToe.scanner.next();
+					}
+					x = ticTacToe.scanner.nextInt();
+				}
+				// a proper range
+				while (y < 1 || y > 3) {
+					System.out.println("Player: " + ticTacToe.actualPlayer + ". Enter a coordinate Y (from 1 do 3)");
+					// check is it an integer
+					while (!ticTacToe.scanner.hasNextInt()) {
+						System.out.println("you have to enter the integer from 1 to 3.");
+						ticTacToe.scanner.next();
+					}
+					y = ticTacToe.scanner.nextInt();
+				}
+			} while (ticTacToe.move(x, y));
+			ticTacToe.counter+=1;
 			ticTacToe.board[x - 1][y - 1] = ticTacToe.actualPlayer;
 			if ((ticTacToe.winner = ticTacToe.checkWhoWon()) != null) {
+				ticTacToe.printBoard();
 				System.out.println("And the WINNER is " + ticTacToe.actualPlayer + " ! CONGRATULATION !!!");
 			} else {
 				ticTacToe.actualPlayer = (ticTacToe.actualPlayer == "X") ? "O" : "X";
 			}
-
+		}
+		if (ticTacToe.counter == 9) {
+			ticTacToe.printBoard();
+			System.out.println("DRAW! GG!");
 		}
 	}
 }
