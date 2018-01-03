@@ -63,20 +63,20 @@ public class TicTacToe {
 				}
 			}
 			// check horizontal
-			if (horizontal == "XXX" || horizontal == "OOO") {
+			if (horizontal.equals("XXX") || horizontal.equals("OOO")) {
 				return horizontal.substring(0, 1);
 			}
 			// check vertical
-			if (vertical == "XXX" || vertical == "OOO") {
+			if (vertical.equals("XXX") || vertical.equals("OOO")) {
 				return vertical.substring(0, 1);
 			}
 		}
 		// check diagnonal (0,0)
-		if (diagnonal1 == "XXX" || diagnonal1 == "OOO") {
+		if (diagnonal1.equals("XXX") || diagnonal1.equals("OOO")) {
 			return diagnonal1.substring(0, 1);
 		}
 		// check diagnonal (2,0)
-		if (diagnonal2 == "XXX" || diagnonal2 == "OOO") {
+		if (diagnonal2.equals("XXX") || diagnonal2.equals("OOO")) {
 			return diagnonal2.substring(0, 1);
 		}
 		return null;
@@ -89,29 +89,31 @@ public class TicTacToe {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
+		String dupa = "lala";
+		String[] tablica = { " ", " ", " " };
+		dupa = dupa + tablica[1];
+		dupa += "hehe";
+		System.out.println(dupa);
 		TicTacToe ticTacToe = new TicTacToe();
 		ticTacToe.printBoard();
 		while (ticTacToe.winner == null) {
 			ticTacToe.printBoard();
-			int x=0;int y=0;
-			while ((x<1 || x >3) || (y<1 || y>3) || (ticTacToe.board[x-1][y-1]!=" ")) {
-				System.out.println("Gracz: "+ticTacToe.actualPlayer+". Podaj wspolrzedna pozioma od 1 do 3");
-				x=ticTacToe.scanner.nextInt();
-				System.out.println("Gracz: "+ticTacToe.actualPlayer+". Podaj wspolrzedna pionowa od 1 do 3");
-				y=ticTacToe.scanner.nextInt();
+			int x = 0;
+			int y = 0;
+			while ((x < 1 || x > 3) || (y < 1 || y > 3) || (ticTacToe.board[x - 1][y - 1] != " ")) {
+				System.out.println("Gracz: " + ticTacToe.actualPlayer + ". Podaj wspolrzedna pozioma od 1 do 3");
+				x = ticTacToe.scanner.nextInt();
+				System.out.println("Gracz: " + ticTacToe.actualPlayer + ". Podaj wspolrzedna pionowa od 1 do 3");
+				y = ticTacToe.scanner.nextInt();
 			}
-			ticTacToe.board[x-1][y-1]=ticTacToe.actualPlayer;
-			ticTacToe.winner=ticTacToe.checkWhoWon();
-			ticTacToe.actualPlayer=(ticTacToe.actualPlayer=="X") ? "O": "X";
-			
-			
-		}
-		// sprawdz czy ktos wygral
+			ticTacToe.board[x - 1][y - 1] = ticTacToe.actualPlayer;
+			if ((ticTacToe.winner = ticTacToe.checkWhoWon()) != null) {
+				System.out.println("And the WINNER is " + ticTacToe.actualPlayer + " ! CONGRATULATION !!!");
+			} else {
+				ticTacToe.actualPlayer = (ticTacToe.actualPlayer == "X") ? "O" : "X";
+			}
 
-		// }
-		// wypisz plansze
-		// pogratuluj zwyciezcy
-		// zakoncz dzialanie porgramu
+		}
 	}
 }
